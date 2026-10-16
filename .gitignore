@@ -7,6 +7,8 @@
 *.dll
 *.so
 *.dylib
+hubd
+simdev
 
 # Test binary, built with `go test -c`
 *.test
@@ -28,6 +30,5 @@ go.work.sum
 # env file
 .env
 
-# Editor/IDE
-# .idea/
-# .vscode/
+# Directories
+/bin/
