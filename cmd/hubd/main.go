@@ -7,13 +7,12 @@ import (
 )
 
 func main() {
-	slog.Info("Test")
 
-	t := event.Topic{
-		Room:   "salon",
-		Device: "tv",
-		Metric: "power",
+	t, err := event.NewTopic("home/salon/tv/power")
+	if err != nil {
+		slog.Error("topic", "err", err)
+		return
 	}
 
-	slog.Info("topic", "value", t.String())
+	slog.Info("topic", "value", t.String(), "room", t.Room())
 }

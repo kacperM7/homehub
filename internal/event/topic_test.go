@@ -1,6 +1,7 @@
 package event
 
 import (
+	"errors"
 	"testing"
 )
 
@@ -14,7 +15,7 @@ func TestParseTopic(t *testing.T) {
 		{
 			name: "valid home/room/device/metric",
 			in:   "home/salon/tv/power",
-			want: Topic{Room: "salon", Device: "tv", Metric: "power"},
+			want: Topic{room: "salon", device: "tv", metric: "power"},
 		},
 		{
 			name:    "invalid empty",
@@ -54,7 +55,7 @@ func TestParseTopic(t *testing.T) {
 		},
 		{
 			name:    "invalid too many segments",
-			in:      "home/salon/tv/power/overhelming",
+			in:      "home/salon/tv/power/extra",
 			want:    Topic{},
 			wantErr: true,
 		},
@@ -62,8 +63,8 @@ func TestParseTopic(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := ParseTopic(tt.in)
-			if (err != nil) != tt.wantErr {
+			got, err := parseTopic(tt.in)
+			if (errors.Is(err, ErrInvalidTopic)) != tt.wantErr {
 				t.Fatalf("ParseTopic(%q) error = %v, wantErr %v", tt.in, err, tt.wantErr)
 			}
 			if got != tt.want {
